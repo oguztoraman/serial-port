@@ -15,13 +15,23 @@ int main()
             .stop_bits_one()
         };
         std::cout << std::boolalpha;
-        std::cout << (port.send("test") ? "message sent!\n" : "message could not be sent!\n");
-        char rx[9]{};
+
+        std::string tx_message{"test"};
+        char rx_message[5]{};
         while(true){
-            std::cout << port.receive_to(rx) << " " << rx << "\n";
+            std::getchar();
+            std::cout << (port.send(tx_message, tx_message.length()) != port.error ?
+                "tx_message <" + tx_message + "> sent\n" :
+                "tx_message <" + tx_message + "> could not be sent!\n");
+            std::getchar();
+            std::cout << (port.receive_to(rx_message, tx_message.length()) != port.error ?
+                std::string{"rx_message <"} + rx_message + std::string{"> received\n"}:
+                "rx_message could not be received!\n");
         }
     } catch (const std::exception& e) {
         std::cerr << e.what() << "\n";
     }
     return 0;
 }
+
+
