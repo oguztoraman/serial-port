@@ -134,6 +134,8 @@ public:
         };
     };
 
+    static constexpr std::size_t error = 0;
+
     serial_port(const serial_port_parameters& parameters)
     try : m_serial_port{m_io, parameters.m_port_name}
     {
@@ -148,22 +150,22 @@ public:
         };
     }
 
-    template <typename T, std::size_t N>
-    bool receive_to(T (&rx_message)[N], std::size_t message_size = N) const noexcept
+    template <typename ...Args>
+    std::size_t receive_to(Args&& ...args) const noexcept
     try {
-        auto rx_buffer = boost::asio::buffer(&rx_message[0], message_size);
-        return (message_size == m_serial_port.read_some(rx_buffer));
+        auto rx_buffer = boost::asio::buffer(std::forward<Args>(args)...);
+        return m_serial_port.read_some(rx_buffer);
     } catch (const boost::system::system_error& e) {
-        return false;
+        return error;
     }
 
-    template <typename T, std::size_t N>
-    bool send(const T (&tx_message)[N], std::size_t message_size = N) const noexcept
+    template <typename ...Args>
+    std::size_t send(Args&& ...args) const noexcept
     try {
-        auto tx_buffer = boost::asio::buffer(&tx_message[0], message_size);
-        return (message_size == m_serial_port.write_some(tx_buffer));
+        auto tx_buffer = boost::asio::buffer(std::forward<Args>(args)...);
+        return m_serial_port.write_some(tx_buffer);
     } catch (const boost::system::system_error& e) {
-        return false;
+        return error;
     }
 
 private:
