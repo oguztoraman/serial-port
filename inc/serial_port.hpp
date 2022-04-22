@@ -12,8 +12,14 @@
 
 #include <boost/asio/serial_port.hpp>
 
-static_assert(BOOST_VERSION >= 107600,
-              "boost version must be at least 1.76.0"
+static_assert(
+    BOOST_VERSION >= 107600,
+    "boost version must be at least 1.76.0!"
+);
+
+static_assert (
+    __cplusplus >= 201402L,
+    "minimum c++14 required!"
 );
 
 namespace project {
