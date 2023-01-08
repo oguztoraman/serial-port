@@ -22,7 +22,7 @@ static_assert (
     "minimum c++14 required!"
 );
 
-namespace project {
+namespace ports {
 
 class serial_port {
 public:
@@ -187,8 +187,8 @@ inline serial_port::serial_port_parameters
         std::string(cstr_ptr, n)
     };
 }
-} /* namespace project::literals */
+} /* namespace ports::literals */
 
-} /* namespace project */
+} /* namespace ports */
 
 #endif /* SERIAL_PORT_HPP */

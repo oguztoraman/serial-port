@@ -5,8 +5,8 @@
 int main()
 {
     try {
-        using namespace project::literals;
-        project::serial_port port{
+        using namespace ports::literals;
+        ports::serial_port port{
             "/dev/ttyUSB0"_p
             .baud_rate(115'200)
             .character_size(8)
